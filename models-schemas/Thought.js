@@ -12,7 +12,11 @@ const thoughtSchema = new Schema(
         createdAt: {
             type: Date,
             // set default to current timestamp
-            // use getter method to format the timestamp
+            default: Date.now,
+            get: function(date) {
+                // getter method, format the timestamp as a string
+                return date.toLocaleString();
+              },
         },
         username: {
             type: String,
@@ -21,3 +25,7 @@ const thoughtSchema = new Schema(
         reactions: [reactionSchema]
     }
 )
+
+const Thought = model('thought', thoughtSchema);
+
+module.exports = Thought;
