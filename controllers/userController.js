@@ -1,3 +1,6 @@
+// include ObjectID from mongoose and include the models
+const {ObjectID} = require('mongoose').Types;
+const {User, Thought} = require('../models-schemas');
 // GET all users
 
 // GET a single user with thought & friend data
