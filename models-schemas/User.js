@@ -16,16 +16,20 @@ const UserSchema = new Schema(
             match: /.+\@.+\..+/
         },
         thoughts: [thoughtSchema],
-        friends: [UserSchema], // self-reference user model
+        friends: [{
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }], // self-reference user model
     }, {
-        virtuals: { // virtual to get # of friends based on length of friends array
-            friendCount : {
-                get() {
-                    return this.friends.length;
-                }
-            }
-        }
     });
+    // virtual to get # of friends based on length of friends array
+    userSchema.virtual('numFriends') 
+            .get(function() {
+                return this.friends.length;
+            })
+            .set(function(num) {
+                // blank set function 
+            }) 
 
     const User = model('user', UserSchema);
 
