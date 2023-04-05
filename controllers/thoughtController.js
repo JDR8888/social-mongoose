@@ -1,4 +1,5 @@
 // import the router
+const {User, Thought} = require('../models-schemas')
 
 // GET all thoughts
 

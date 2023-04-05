@@ -26,11 +26,17 @@ createUser(req, res) {
     User.create(req.body)
     .then((dbUserData) => res.json(dbUserData))
     .catch((err) => res.status(500).json(err));
-}
+},
 // PUT to update user by id
 
 // DELETE user by id
-
+deleteUser(req, res) {
+    User.findByIdAndDelete(req.params.id);
+    if (!user) {
+        return res.status(404).json({error: 'no user with that id'})
+    }
+    return res.json({message: 'user deleted'})
+}
 // POST to add friend to user's friend list
 
 // DELETE - remove frind from user's friend list
