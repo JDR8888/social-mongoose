@@ -19,25 +19,25 @@ connection.once('open', async () => {
         const user = {username: userName, email: `${filteredUsernames[i]}@gmail.com`, thoughts: [], };
         users.push(user);
     }
-    await users.shift();
+    await users.shift(); // get rid of empty first index
     
-    // console.log(User({userName: null}));
     await User.collection.insertMany(users);
 
-    // const filteredThoughts = thoughtsArray.filter(thought => thought !== null);
+    const filteredThoughts = thoughtsArray.filter(thought => thought !== null);
 
-    // for (i =0; i < filteredThoughts.length; i++) {
-    //     const thought = filteredThoughts[i]; //go through every thought
-    //     // console.log(thought);
-    //     const thoughtUser = getRandomItem(filteredUsernames); // pick a random user for that thought
-    //     const user = await User.findOne({username: `${thoughtUser}` }); // find that user in the db
-    //     const newThought = { thoughtText: `${thought}`, username: `${thoughtUser}`, reactions: [] } // make a new thought for the db
-    //     // console.log(user);
-    //     // console.log(user.thoughts);
-    //     user.thoughts.push(newThought);
-    //     await Thought.create(newThought);
-    //     await user.save();
-    // }
+    for (i =0; i < filteredThoughts.length; i++) {
+        const thought = filteredThoughts[i]; //go through every thought
+        // console.log(thought);
+        const thoughtUser = getRandomItem(filteredUsernames); // pick a random user for that thought
+        const user = await User.findOne({username: `${thoughtUser}` }); // find that user in the db
+        if(user){
+            const newThought = new Thought({ thoughtText: `${thought}`, username: `${thoughtUser}`, reactions: [] }); // make a new thought for the db
+            // await Thought.create(newThought);
+            await newThought.save();
+            user.thoughts.push(newThought._id);
+            await user.save();
+        }
+    }
 
     console.table(users);
 //   console.table(thoughts);
