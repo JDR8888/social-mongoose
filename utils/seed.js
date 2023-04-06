@@ -10,36 +10,36 @@ connection.once('open', async () => {
     await User.deleteMany({});
     await Thought.deleteMany({});
     // await User.findOneAndDelete({ username: null })
-
+    const users = []; //array to store user objects in
     const filteredUsernames = usernames.filter(username => username !== null);
     // // // will pull all usernames from username array and to add name/email based on name, and put empty array inside for thoughts
     for (i = 0; i < filteredUsernames.length; i++) {
         const userName = filteredUsernames[i];
-        console.log(userName);
+        // console.log(userName);
         const user = {username: userName, email: `${filteredUsernames[i]}@gmail.com`, thoughts: [], };
-        const alreadyUser = await User.findOne({ username: userName });
-        if(!alreadyUser) {
-            await User.create(user);
-        }
+        users.push(user);
     }
-    // User.collection.insertMany(users);
+    await users.shift();
+    
+    // console.log(User({userName: null}));
+    await User.collection.insertMany(users);
 
-    const filteredThoughts = thoughtsArray.filter(thought => thought !== null);
+    // const filteredThoughts = thoughtsArray.filter(thought => thought !== null);
 
-    for (i =0; i < filteredThoughts.length; i++) {
-        const thought = filteredThoughts[i]; //go through every thought
-        // console.log(thought);
-        const thoughtUser = getRandomItem(filteredUsernames); // pick a random user for that thought
-        const user = await User.findOne({username: `${thoughtUser}` }); // find that user in the db
-        const newThought = { thoughtText: `${thought}`, username: `${thoughtUser}`, reactions: [] } // make a new thought for the db
-        // console.log(user);
-        // console.log(user.thoughts);
-        user.thoughts.push(newThought);
-        await Thought.create(newThought);
-        await user.save();
-    }
+    // for (i =0; i < filteredThoughts.length; i++) {
+    //     const thought = filteredThoughts[i]; //go through every thought
+    //     // console.log(thought);
+    //     const thoughtUser = getRandomItem(filteredUsernames); // pick a random user for that thought
+    //     const user = await User.findOne({username: `${thoughtUser}` }); // find that user in the db
+    //     const newThought = { thoughtText: `${thought}`, username: `${thoughtUser}`, reactions: [] } // make a new thought for the db
+    //     // console.log(user);
+    //     // console.log(user.thoughts);
+    //     user.thoughts.push(newThought);
+    //     await Thought.create(newThought);
+    //     await user.save();
+    // }
 
-    // console.table(users);
+    console.table(users);
 //   console.table(thoughts);
   console.info('Whoa man looka them seeds 🌱🌱🌱🌱');
   process.exit(0);
