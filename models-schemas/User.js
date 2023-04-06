@@ -3,7 +3,7 @@ const Thought = require('./Thought')
 
 const userSchema = new Schema(
     {
-        userName: {
+        username: {
             type: String,
             required: true,
             unique: true,
@@ -17,13 +17,15 @@ const userSchema = new Schema(
         },
         thoughts: [{
             type: Schema.Types.ObjectId,
-            ref: 'Thought',
+            ref: 'thought',
         }],
         friends: [{
             type: Schema.Types.ObjectId,
             ref: 'User'
         }], // self-reference user model
     }, {
+        toJSON: {getters: true},
+        id: false,
     });
     // virtual to get # of friends based on length of friends array
     userSchema.virtual('numFriends') 
