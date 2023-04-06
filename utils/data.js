@@ -52,7 +52,7 @@ const usernames = [
     'michaelvoltaggio',
     'bryanvoltaggio'];
 
-    const thoughtText = [
+    const thoughtsArray = [
         "I love cigars. They remind me that life is short, and sometimes it's okay to just sit back and enjoy the simple things. - Norm Macdonald",
         "Trees are amazing. They're like nature's skyscrapers, but they don't block your view of the stars. - Rodney Dangerfield",
         "Dogs are the best. They don't care if you're rich or poor, they just want to play and love you. If only people were that simple. - Kermit the Frog",
@@ -76,4 +76,8 @@ const usernames = [
 
         const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-        getRandomUser = () => `${getRandomItem(usernames)}`;
+        const getRandomUser = () => {
+            return getRandomItem(usernames);
+        }
+
+         module.exports = {usernames, thoughtsArray, getRandomItem, getRandomUser};

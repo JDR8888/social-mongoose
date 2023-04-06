@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
-const thoughtSchema = require('./Thought')
+const Thought = require('./Thought')
 
-const UserSchema = new Schema(
+const userSchema = new Schema(
     {
         userName: {
             type: String,
@@ -15,7 +15,10 @@ const UserSchema = new Schema(
             unique: true,
             match: /.+\@.+\..+/
         },
-        thoughts: [thoughtSchema],
+        thoughts: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Thought',
+        }],
         friends: [{
             type: Schema.Types.ObjectId,
             ref: 'User'
@@ -31,6 +34,6 @@ const UserSchema = new Schema(
                 // blank set function 
             }) 
 
-    const User = model('user', UserSchema);
+    const User = model('user', userSchema);
 
     module.exports = User;
