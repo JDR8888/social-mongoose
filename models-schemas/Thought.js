@@ -23,6 +23,10 @@ const thoughtSchema = new Schema(
             required: true,
         },
         reactions: [Reaction]
+    },
+    {
+        toJSON: { getters: true },
+        id: false,
     }
 )
 
