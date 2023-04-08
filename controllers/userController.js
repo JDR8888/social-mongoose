@@ -10,8 +10,8 @@ getUsers(req, res) {
     .catch((err) => res.status(500).json(err));
 },
 // GET a single user with thought & friend data
-getSingleUser(req,res) {
-    User.findOne({_id: req.params.userID})
+getSingleUser(req, res) {
+    User.findOne({_id: req.params.userId})
     .select('-__v')
     .then((user) => 
     !user // ternary if no user
@@ -28,19 +28,61 @@ createUser(req, res) {
     .catch((err) => res.status(500).json(err));
 },
 // PUT to update user by id
+updateUser(req, res) {
+    User.findByIdAndUpdate(req.params.userId, req.body, {
+        new: true
+    })
+    .then((user) =>
+    !user 
+      ? res.status(404).json({message: 'no user with that id'})
+      : res.json(user)
+    )
+    .catch((err) => res.status(500).json(err));
+},
 
 // DELETE user by id
 deleteUser(req, res) {
-    User.findByIdAndDelete(req.params.id);
+    const userId = req.params.userId;
+    User.findById(userId)
+    .then((user) => {
     if (!user) {
-        return res.status(404).json({error: 'no user with that id'})
+        return res.status(404).json({message: 'no user found'});
     }
-    return res.json({message: 'user deleted'})
-}
+    const userName = user.username;
+    // *BONUS* --> delete thought's of user
+    return Thought.deleteMany({ username })
+    .then(() => {
+        return User.findByIdAndDelete(userId);
+    })
+    .then(() => {
+        res.json({ message: 'the user (along with all associated thoughts) has been annihilated'})
+    });
+    })    
+    .catch((err) => res.status(500).json(err));
+},
 // POST to add friend to user's friend list
+addFriend(req, res) {
+    try {
+    const user = req.params.userId;
+    const friend = req.params.friendId;
+    
+    User.findById(userId)
+      .then((user) => {
+        if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+    user.friends.push(friend);
+    user.save()
+    .then(() => {
+        res.status(200).json({message: 'your user has a new friend'})
+        .catch((err) => res.status(500).json(err));
+    });
+}) // closes .then statement
+} catch (err) { res.status(500).json(err);}
+}, 
 
 // DELETE - remove frind from user's friend list
 
-// **BONUS** DELETE user --> delete thought's associated with that user
+
 
 }; // ends module.exports
