@@ -51,10 +51,18 @@ module.exports = {
         .then(() => res.json({ message: "thought and reactions deleted"}))
         .catch((err) => res.status(500).json(err));
     },
-    
+
 // /:thoughtId/reactions
 
 // POST --> create a reaction, store in a thought's reaction array
+addReaction(req, res) {
+    try {
+        const thoughtId = req.params.thoughtId;
+        const reaction = req.body;
+        
+    } catch (err) { res.status(500).json(err);}
+
+}
 
 // DELETE --> pull/remove a reaction by reactionID
 
