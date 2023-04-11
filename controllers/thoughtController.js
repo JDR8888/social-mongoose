@@ -59,10 +59,19 @@ addReaction(req, res) {
     try {
         const thoughtId = req.params.thoughtId;
         const reaction = req.body;
-        
+        Thought.findById(thoughtId)
+          .then((thought) => {
+            if (!thought) {
+                return res.status(404).json({message: 'no thought with that id'});
+            }
+          thought.reactions.push(reaction);
+          thought.save()
+          .then(() => {
+            res.status(200).json({message: 'huzzah. you got a reaction'});
+          });
+          })
     } catch (err) { res.status(500).json(err);}
-
-}
+},
 
 // DELETE --> pull/remove a reaction by reactionID
 
