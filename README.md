@@ -21,7 +21,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 
 The github repo is @ https://github.com/JDR8888/social-mongoose 
 
-Screenshot of the page:
+Link to walkthrough video: https://drive.google.com/file/d/1tNANidukNWbJWVbn8fVJw95MVdXroEFG/view 
 
 
 
